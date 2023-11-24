@@ -1,3 +1,4 @@
+import { CONTROL_AREA_HEIGHT } from "@/consts";
 import { TurretState } from "@/types";
 import { Dispatch, SetStateAction } from "react";
 import { Text } from "react-konva";
@@ -5,14 +6,21 @@ import { Text } from "react-konva";
 interface TurretProps {
   turret: TurretState;
   setTurrets: Dispatch<SetStateAction<TurretState[]>>;
+  addPlaceHolderTurret: () => void;
+  isPlaceHolder: boolean;
 }
 
-export default function Turret({ turret, setTurrets }: TurretProps) {
+export default function Turret({
+  turret,
+  setTurrets,
+  addPlaceHolderTurret,
+  isPlaceHolder,
+}: TurretProps) {
   const { x, y, isDragging, id } = turret;
 
   return (
     <Text
-      text={`Turret ${id}`}
+      text={isPlaceHolder ? `New Turret` : `Turret ${id}`}
       x={x}
       y={y}
       draggable
@@ -25,18 +33,22 @@ export default function Turret({ turret, setTurrets }: TurretProps) {
         );
       }}
       onDragEnd={(e) => {
+        const isMoveValid = e.target.y() > CONTROL_AREA_HEIGHT;
         setTurrets((prev) =>
-          prev.map((turret) =>
-            turret.id === id
+          prev.map((item) =>
+            item.id === id
               ? {
-                  ...turret,
+                  ...item,
                   isDragging: false,
-                  x: e.target.x(),
-                  y: e.target.y(),
+                  x: isMoveValid ? e.target.x() : x,
+                  y: isMoveValid ? e.target.y() : y,
                 }
-              : turret
+              : item
           )
         );
+        if (isMoveValid) {
+          addPlaceHolderTurret();
+        }
       }}
     />
   );
