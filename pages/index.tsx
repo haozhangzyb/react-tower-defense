@@ -1,7 +1,11 @@
-import { Inter } from "next/font/google";
+"use client";
 
-const inter = Inter({ subsets: ["latin"] });
+import dynamic from "next/dynamic";
+
+const Canvas = dynamic(() => import("@/components/Canvas"), {
+  ssr: false,
+});
 
 export default function Home() {
-  return <main className={`${inter.className}`}>hello world</main>;
+  return <Canvas />;
 }
