@@ -1,7 +1,7 @@
 import Turrets from "@/components/Turrets";
 import { CONTROL_AREA_HEIGHT } from "@/consts";
 
-import { Stage, Layer, Rect } from "react-konva";
+import { Stage, Layer, Rect, Text } from "react-konva";
 import { useStrictMode } from "react-konva";
 
 export default function Canvas() {
@@ -11,6 +11,12 @@ export default function Canvas() {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
+        <Text
+          x={window.innerWidth - 200}
+          y={15}
+          text='place a turret to start'
+          fontSize={20}
+        />
         <Rect
           x={0}
           y={50}

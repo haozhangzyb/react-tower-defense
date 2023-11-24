@@ -23,7 +23,7 @@ export default function Turret({
       text={isPlaceHolder ? `New Turret` : `Turret ${id}`}
       x={x}
       y={y}
-      draggable
+      draggable={isPlaceHolder ? true : false}
       fill={isDragging ? "green" : "black"}
       onDragStart={() => {
         setTurrets((prev) =>
