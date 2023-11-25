@@ -1,12 +1,10 @@
+import { Stage, Layer, Rect, Text, useStrictMode } from "react-konva";
+
 import Turrets from "@/components/Turrets";
+import Loons from "./Loons";
 import { CONTROL_AREA_HEIGHT, fakeData } from "@/consts";
 
-import { Stage, Layer, Rect, Text } from "react-konva";
-import { useStrictMode } from "react-konva";
-import Loons from "./Loons";
-
 export default function Canvas() {
-  // make top 100px of canvas white background and the remaining part with a border
   useStrictMode(true);
 
   return (
@@ -18,6 +16,7 @@ export default function Canvas() {
           text='place a turret to start'
           fontSize={20}
         />
+        {/* // make top 100px of canvas white background and the remaining part with a border */}
         <Rect
           x={0}
           y={50}
