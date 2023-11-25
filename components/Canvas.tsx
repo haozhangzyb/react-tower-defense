@@ -1,8 +1,9 @@
 import Turrets from "@/components/Turrets";
-import { CONTROL_AREA_HEIGHT } from "@/consts";
+import { CONTROL_AREA_HEIGHT, fakeData } from "@/consts";
 
 import { Stage, Layer, Rect, Text } from "react-konva";
 import { useStrictMode } from "react-konva";
+import Loons from "./Loons";
 
 export default function Canvas() {
   // make top 100px of canvas white background and the remaining part with a border
@@ -27,6 +28,7 @@ export default function Canvas() {
           strokeWidth={4}
         />
         <Turrets />
+        <Loons responseData={fakeData} />
       </Layer>
     </Stage>
   );

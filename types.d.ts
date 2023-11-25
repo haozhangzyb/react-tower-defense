@@ -4,3 +4,9 @@ export type TurretState = {
   y: number;
   isDragging: boolean;
 };
+
+export type LoonState = {
+  id: string;
+  position_x: number;
+  position_y: number;
+};
