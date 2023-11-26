@@ -1,6 +1,12 @@
 import { TurretState } from "@/types";
 import { useState } from "react";
 import Turret from "./Turret";
+import { ReadyState } from "react-use-websocket";
+
+interface TurretsProps {
+  sendJsonMessage: (message: any) => void;
+  readyState: ReadyState;
+}
 
 const initialTurret: TurretState = {
   id: "1",
@@ -8,7 +14,11 @@ const initialTurret: TurretState = {
   y: 5,
   isDragging: false,
 };
-export default function Turrets() {
+
+export default function Turrets({
+  sendJsonMessage,
+  readyState,
+}: TurretsProps) {
   const [turrets, setTurrets] = useState<TurretState[]>([initialTurret]);
 
   function addPlaceHolderTurret() {

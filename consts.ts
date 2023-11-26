@@ -1,4 +1,5 @@
 export const CONTROL_AREA_HEIGHT = 54;
+export const WS_URL = `wss://pronto-challenge.ngrok.app/${process.env.NEXT_PUBLIC_EMAIL}/ws`;
 
 export const fakeData = {
   loonState: {
