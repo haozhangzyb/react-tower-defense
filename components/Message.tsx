@@ -1,6 +1,5 @@
 import useMessage from "@/hooks/useMessage";
 import { ResponseData } from "@/types";
-import { useEffect, useRef } from "react";
 import { Text } from "react-konva";
 
 interface MessageProps {

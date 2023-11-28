@@ -1,10 +1,10 @@
-import { Stage, Layer, Rect, Text, useStrictMode } from "react-konva";
+import { Stage, Layer, Rect, useStrictMode } from "react-konva";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import Turrets from "@/components/Turrets";
 import { CONTROL_AREA_HEIGHT, WS_URL } from "@/consts";
 import Loons from "./Loons";
-import { LoonStateResponseData, ResponseData } from "@/types";
+import { ResponseData } from "@/types";
 import { formatLoonStateResponseData } from "@/util";
 import Message from "./Message";
 
@@ -25,6 +25,10 @@ export default function Canvas() {
       },
     }
   );
+
+  if (readyState !== ReadyState.OPEN) {
+    return <p>Connecting...</p>;
+  }
 
   const responseData = lastJsonMessage as ResponseData;
   const loonState = formatLoonStateResponseData(responseData?.loonState);
@@ -47,12 +51,8 @@ export default function Canvas() {
           stroke='black'
           strokeWidth={4}
         />
-        <Turrets
-          sendJsonMessage={sendJsonMessage}
-          readyState={readyState}
-          loonState={loonState}
-        />
-        {<Loons loonState={loonState} />}
+        <Turrets sendJsonMessage={sendJsonMessage} loonState={loonState} />
+        <Loons loonState={loonState} />
       </Layer>
     </Stage>
   );

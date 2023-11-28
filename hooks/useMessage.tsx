@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export default function useMessage(message: string) {
-  //when the responseData.message changes, if it is valid, save it to messageRef, and display it.
+  // when the message changes, if it is valid, save it to messageRef, and display it.
   // after 5 seconds, clear the messageRef, and the message will disappear.
   const messageRef = useRef<string>("");
 

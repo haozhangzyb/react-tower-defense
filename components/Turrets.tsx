@@ -7,7 +7,6 @@ import { getNearestLoonId } from "@/util";
 
 interface TurretsProps {
   sendJsonMessage: (message: any) => void;
-  readyState: ReadyState;
   loonState: LoonState[] | null;
 }
 
@@ -20,7 +19,6 @@ const initialTurret: TurretState = {
 
 export default function Turrets({
   sendJsonMessage,
-  readyState,
   loonState,
 }: TurretsProps) {
   const [turrets, setTurrets] = useState<TurretState[]>([initialTurret]);
