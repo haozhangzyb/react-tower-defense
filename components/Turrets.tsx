@@ -1,11 +1,14 @@
-import { TurretState } from "@/types";
+import { LoonState, TurretState } from "@/types";
 import { useState } from "react";
 import Turret from "./Turret";
 import { ReadyState } from "react-use-websocket";
+import { get } from "http";
+import { getNearestLoonId } from "@/util";
 
 interface TurretsProps {
   sendJsonMessage: (message: any) => void;
   readyState: ReadyState;
+  loonState: LoonState[] | null;
 }
 
 const initialTurret: TurretState = {
@@ -18,6 +21,7 @@ const initialTurret: TurretState = {
 export default function Turrets({
   sendJsonMessage,
   readyState,
+  loonState,
 }: TurretsProps) {
   const [turrets, setTurrets] = useState<TurretState[]>([initialTurret]);
 
@@ -37,6 +41,8 @@ export default function Turrets({
           setTurrets={setTurrets}
           addPlaceHolderTurret={addPlaceHolderTurret}
           isPlaceHolder={turret.id === turrets.length.toString()}
+          nearestLoonId={getNearestLoonId(loonState, turret)}
+          sendJsonMessage={sendJsonMessage}
         />
       ))}
     </>

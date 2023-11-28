@@ -1,6 +1,6 @@
 import { CONTROL_AREA_HEIGHT } from "@/consts";
-import { TurretState } from "@/types";
-import { Dispatch, SetStateAction } from "react";
+import { LoonState, TurretState } from "@/types";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Text } from "react-konva";
 
 interface TurretProps {
@@ -8,6 +8,8 @@ interface TurretProps {
   setTurrets: Dispatch<SetStateAction<TurretState[]>>;
   addPlaceHolderTurret: () => void;
   isPlaceHolder: boolean;
+  nearestLoonId: LoonState["id"] | null;
+  sendJsonMessage: (message: any) => void;
 }
 
 export default function Turret({
@@ -15,8 +17,25 @@ export default function Turret({
   setTurrets,
   addPlaceHolderTurret,
   isPlaceHolder,
+  nearestLoonId,
+  sendJsonMessage,
 }: TurretProps) {
   const { x, y, isDragging, id } = turret;
+
+  // pop the nearest loon at 1Hz
+  useEffect(() => {
+    if (!nearestLoonId) return;
+    const interval = setInterval(() => {
+      sendJsonMessage({
+        publish: {
+          popLoon: {
+            loonId: nearestLoonId,
+          },
+        },
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [nearestLoonId]);
 
   return (
     <Text

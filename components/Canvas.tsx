@@ -5,6 +5,7 @@ import Turrets from "@/components/Turrets";
 import { CONTROL_AREA_HEIGHT, WS_URL } from "@/consts";
 import Loons from "./Loons";
 import { LoonStateResponseData, ResponseData } from "@/types";
+import { formatLoonStateResponseData } from "@/util";
 
 export default function Canvas() {
   useStrictMode(true);
@@ -25,6 +26,7 @@ export default function Canvas() {
   );
 
   const responseData = lastJsonMessage as ResponseData;
+  const loonState = formatLoonStateResponseData(responseData?.loonState);
 
   if (responseData?.error) {
     return <p>{responseData.error}</p>;
@@ -52,8 +54,9 @@ export default function Canvas() {
         <Turrets
           sendJsonMessage={sendJsonMessage}
           readyState={readyState}
+          loonState={loonState}
         />
-        <Loons loonStateResponseData={responseData?.loonState} />
+        {<Loons loonState={loonState} />}
       </Layer>
     </Stage>
   );
