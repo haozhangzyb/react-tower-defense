@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Configuration
 
-Please change the placeholder email in `env.local` to a valid email there.
+Please make a copy of `env.example`, rename it to `.env`, and replace placeholder email with a valid email there.
 
 "Replace `{YOUR_EMAIL_HERE}` with your email address in the URL. The URL may change occasionally so reach out to kemal@pronto.ai if it's not working for you."
 
