@@ -20,7 +20,7 @@ export type LoonStateResponseData = Record<
 >;
 
 interface ResponseData {
-  msg?: string;
+  msg?: { msg: string };
   error?: string;
   loonState?: LoonStateResponseData;
 }

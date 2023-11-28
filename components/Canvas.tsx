@@ -6,6 +6,7 @@ import { CONTROL_AREA_HEIGHT, WS_URL } from "@/consts";
 import Loons from "./Loons";
 import { LoonStateResponseData, ResponseData } from "@/types";
 import { formatLoonStateResponseData } from "@/util";
+import Message from "./Message";
 
 export default function Canvas() {
   useStrictMode(true);
@@ -35,12 +36,7 @@ export default function Canvas() {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Text
-          x={window.innerWidth - 200}
-          y={15}
-          text={responseData?.msg}
-          fontSize={20}
-        />
+        <Message responseData={responseData} />
         {/* // make top 100px of canvas white background and the remaining part with a border */}
         <Rect
           x={0}
