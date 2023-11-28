@@ -1,6 +1,7 @@
 import { CONTROL_AREA_HEIGHT } from "@/consts";
+import useMessage from "@/hooks/useMessage";
 import { LoonState, TurretState } from "@/types";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { Text } from "react-konva";
 
 interface TurretProps {
@@ -22,9 +23,11 @@ export default function Turret({
 }: TurretProps) {
   const { x, y, isDragging, id } = turret;
 
+  const messageRef = useRef<string>("");
+
   // pop the nearest loon at 1Hz
   useEffect(() => {
-    if (!nearestLoonId) return;
+    if (!nearestLoonId || isPlaceHolder) return;
     const interval = setInterval(() => {
       sendJsonMessage({
         publish: {
@@ -33,42 +36,52 @@ export default function Turret({
           },
         },
       });
+      messageRef.current = `Turret ${id} poped 'loon ${nearestLoonId}`;
     }, 1000);
     return () => clearInterval(interval);
   }, [nearestLoonId]);
 
   return (
-    <Text
-      text={isPlaceHolder ? `New Turret` : `Turret ${id}`}
-      x={x}
-      y={y}
-      draggable
-      fill={isDragging ? "green" : "black"}
-      onDragStart={() => {
-        setTurrets((prev) =>
-          prev.map((turret) =>
-            turret.id === id ? { ...turret, isDragging: true } : turret
-          )
-        );
-      }}
-      onDragEnd={(e) => {
-        const isMoveValid = e.target.y() > CONTROL_AREA_HEIGHT;
-        setTurrets((prev) =>
-          prev.map((item) =>
-            item.id === id
-              ? {
-                  ...item,
-                  isDragging: false,
-                  x: isMoveValid ? e.target.x() : x,
-                  y: isMoveValid ? e.target.y() : y,
-                }
-              : item
-          )
-        );
-        if (isMoveValid) {
-          addPlaceHolderTurret();
-        }
-      }}
-    />
+    <>
+      {!isPlaceHolder && (
+        <Text
+          x={100}
+          y={CONTROL_AREA_HEIGHT + 10 * parseInt(id)}
+          text={messageRef.current}
+        />
+      )}
+      <Text
+        text={isPlaceHolder ? `New Turret` : `Turret ${id}`}
+        x={x}
+        y={y}
+        draggable
+        fill={isDragging ? "green" : "black"}
+        onDragStart={() => {
+          setTurrets((prev) =>
+            prev.map((turret) =>
+              turret.id === id ? { ...turret, isDragging: true } : turret
+            )
+          );
+        }}
+        onDragEnd={(e) => {
+          const isMoveValid = e.target.y() > CONTROL_AREA_HEIGHT;
+          setTurrets((prev) =>
+            prev.map((item) =>
+              item.id === id
+                ? {
+                    ...item,
+                    isDragging: false,
+                    x: isMoveValid ? e.target.x() : x,
+                    y: isMoveValid ? e.target.y() : y,
+                  }
+                : item
+            )
+          );
+          if (isMoveValid) {
+            addPlaceHolderTurret();
+          }
+        }}
+      />
+    </>
   );
 }
